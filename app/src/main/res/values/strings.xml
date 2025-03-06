@@ -3,4 +3,5 @@
     <string name="searchMovie">Search a movie…</string>
     <string name="emptyResultMsg">No movie results yet</string>
     <string name="movieDetail">Details</string>
+    <string name="errorMoviePosterPlaceholder">Movie poster not loaded</string>
 </resources>
