@@ -12,6 +12,7 @@ interface MovieApi {
     suspend fun search(
         @Query("s") searchQuery: String,
         @Query("page") page: Int,
-        @Query("apikey") apiKey: String
+        @Query("type") type: String = "movie",
+        @Query("apikey") apiKey: String,
     ): SearchResultDto
 }
