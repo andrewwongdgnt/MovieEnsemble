@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import com.dgnt.movienensemble.featureMovie.presentation.MovieListContent
 import com.dgnt.movienensemble.ui.theme.MovieEnsembleTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,8 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieEnsembleTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    NavigationContent(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -31,17 +32,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello Movie Ensemble $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MovieEnsembleTheme {
-        Greeting("Android")
-    }
+fun NavigationContent(
+    modifier: Modifier = Modifier
+) {
+    MovieListContent()
 }

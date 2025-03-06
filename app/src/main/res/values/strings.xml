@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Movie Ensemble</string>
+    <string name="searchMovie">Search a movie…</string>
 </resources>
