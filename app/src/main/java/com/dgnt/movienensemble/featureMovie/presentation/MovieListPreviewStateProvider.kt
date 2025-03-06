@@ -52,7 +52,9 @@ class MovieListPreviewParameterProvider : CollectionPreviewParameterProvider<Mov
                             imdbID = "123",
                             type = "Movie"
                         )
-                    )
+                    ),
+                    totalResults = 4,
+                    currentPage = 1
                 )
             )
         ),

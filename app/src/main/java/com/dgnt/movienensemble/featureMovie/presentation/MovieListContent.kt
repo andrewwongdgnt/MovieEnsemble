@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ListItem
@@ -27,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.dgnt.movienensemble.R
+import com.dgnt.movienensemble.core.presentation.composable.EndlessLazyColumn
 import com.dgnt.movienensemble.core.presentation.preview.Previews
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 import com.dgnt.movienensemble.ui.theme.MovieEnsembleTheme
@@ -37,14 +36,15 @@ fun MovieListContent(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     MovieListContentInner(
-        state = state, onSearch = viewModel::onSearch
+        state = state,
+        onAction = viewModel::onAction
     )
 }
 
 @Composable
 private fun MovieListContentInner(
     state: MovieListState,
-    onSearch: (String) -> Unit,
+    onAction: (MovieListAction) -> Unit,
 ) {
 
     Column(
@@ -53,14 +53,21 @@ private fun MovieListContentInner(
             .padding(16.dp)
     ) {
 
-        TextField(value = state.searchQuery, onValueChange = onSearch, modifier = Modifier.fillMaxWidth(), placeholder = {
+        TextField(value = state.searchQuery, onValueChange = {
+            onAction(MovieListAction.Search(it))
+        }, modifier = Modifier.fillMaxWidth(), placeholder = {
             Text(text = stringResource(R.string.searchMovie))
         })
         Spacer(modifier = Modifier.height(16.dp))
         when (state) {
             is MovieListState.Empty -> EmptyResult()
             is MovieListState.Loading -> LoadingResults()
-            is MovieListState.Result -> MovieResults(searchResult = state.searchResult)
+            is MovieListState.Result -> MovieResults(
+                searchResult = state.searchResult,
+                loadMore = {
+                    onAction(MovieListAction.LoadMore)
+                }
+            )
         }
 
 
@@ -97,12 +104,15 @@ private fun LoadingResults(
 
 @Composable
 private fun MovieResults(
-    modifier: Modifier = Modifier, searchResult: SearchResult
+    modifier: Modifier = Modifier,
+    searchResult: SearchResult,
+    loadMore: () -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize()
-    ) {
-        items(searchResult.movies) { movie ->
+    EndlessLazyColumn(
+        modifier = modifier.fillMaxSize(),
+        items = searchResult.movies,
+        loadMoreItems = loadMore,
+        content = { movie ->
             ListItem(
                 modifier = modifier.padding(bottom = 5.dp),
                 leadingContent = {
@@ -122,7 +132,8 @@ private fun MovieResults(
                 shadowElevation = 5.dp,
             )
         }
-    }
+
+    )
 }
 
 @Previews
@@ -131,6 +142,9 @@ private fun MovieListContentPreview(
     @PreviewParameter(MovieListPreviewParameterProvider::class) state: MovieListPreviewState
 ) = MovieEnsembleTheme {
     Surface {
-        MovieListContentInner(state = state.state, onSearch = {})
+        MovieListContentInner(
+            state = state.state,
+            onAction = {}
+        )
     }
 }

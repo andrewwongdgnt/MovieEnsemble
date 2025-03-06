@@ -32,12 +32,24 @@ class MovieListViewModel @Inject constructor(
 
     private var searchQueryJob: Job? = null
 
-    fun onSearch(searchQuery: String) {
+    fun onAction(action: MovieListAction) {
+        when (action) {
+            is MovieListAction.Search -> onSearch(action.searchQuery)
+            MovieListAction.LoadMore -> onLoadMore()
+        }
+    }
+
+    private fun onSearch(
+        searchQuery: String,
+        page: Int = 1,
+        searchProcessingDelay: Long = SEARCH_QUERY_PROCESSING_DELAY_MILLI
+    ) {
+        val initialLoad = page == 1
         _state.value = state.value.new(searchQuery)
         searchQueryJob?.cancel()
         searchQueryJob = viewModelScope.launch {
-            delay(SEARCH_QUERY_PROCESSING_DELAY_MILLI)
-            searchUseCase(searchQuery)
+            delay(searchProcessingDelay)
+            searchUseCase(searchQuery, page)
                 .onEach { result ->
                     when (result) {
                         is Resource.Error -> {
@@ -45,18 +57,34 @@ class MovieListViewModel @Inject constructor(
                         }
 
                         is Resource.Loading -> {
-                            _state.value = MovieListState.Loading(state.value.searchQuery)
+                            if (initialLoad)
+                                _state.value = MovieListState.Loading(state.value.searchQuery)
                         }
 
                         is Resource.Success -> {
+                            val searchResult = result.data ?: SearchResult(emptyList(), 0, page)
+                            val finalSearchResult = if (initialLoad) {
+                                searchResult
+                            } else {
+                                val newMovieList = searchResult.movies
+                                val currentMovieList = ((state.value as? MovieListState.Result)?.searchResult?.movies ?: emptyList())
+                                SearchResult(currentMovieList + newMovieList, 1, page)
+                            }
                             _state.value = MovieListState.Result(
                                 sq = state.value.searchQuery,
-                                searchResult = result.data ?: SearchResult(emptyList())
+                                searchResult = finalSearchResult
                             )
                         }
                     }
 
                 }.launchIn(this)
+        }
+    }
+
+    private fun onLoadMore() {
+        (state.value as? MovieListState.Result)?.let {
+            val newPage = it.searchResult.currentPage + 1
+            onSearch(it.searchQuery, newPage, 100L)
         }
     }
 }

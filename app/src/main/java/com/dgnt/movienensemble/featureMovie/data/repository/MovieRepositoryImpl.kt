@@ -20,7 +20,7 @@ class MovieRepositoryImpl(
 
         try {
             val searchResult = api.search(searchQuery = searchQuery, page = page, apiKey = apiKey)
-            emit(Resource.Success(searchResult.toDomain()))
+            emit(Resource.Success(searchResult.toDomain(page)))
         } catch (e: HttpException) {
             emit(Resource.Error())
         } catch (e: IOException) {
@@ -29,9 +29,11 @@ class MovieRepositoryImpl(
     }
 
     //TODO create custom mappers
-    private fun SearchResultDto.toDomain() =
+    private fun SearchResultDto.toDomain(page:Int) =
         SearchResult(
-            movies = results?.map { it.toDomain() } ?: emptyList()
+            movies = results?.map { it.toDomain() } ?: emptyList(),
+            totalResults = totalResults?.toIntOrNull() ?: 0,
+            currentPage = page
         )
 
     private fun MovieDto.toDomain() =
