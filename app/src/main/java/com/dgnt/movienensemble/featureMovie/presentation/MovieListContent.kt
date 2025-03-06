@@ -67,6 +67,7 @@ private fun MovieListContentInner(
             is MovieListState.Loading -> LoadingResults()
             is MovieListState.Result -> MovieResults(
                 searchResult = state.searchResult,
+                isLoadingMore = state.isLoadingMore,
                 loadMore = {
                     onAction(MovieListAction.LoadMore)
                 }
@@ -109,11 +110,13 @@ private fun LoadingResults(
 private fun MovieResults(
     modifier: Modifier = Modifier,
     searchResult: SearchResult,
+    isLoadingMore: Boolean,
     loadMore: () -> Unit
 ) {
     EndlessLazyColumn(
         modifier = modifier.fillMaxSize(),
         items = searchResult.movies,
+        isLoadingMore = isLoadingMore,
         loadMoreItems = loadMore,
         content = { movie ->
             ListItem(

@@ -9,6 +9,4 @@ data class SearchResult(
     val totalResults: Int,
     val currentPage: Int,
     val resultsPerPage: Int = DEFAULT_RESULTS_PER_PAGE
-) {
-    val pages = (totalResults.toFloat() / resultsPerPage).roundToInt()
-}
+)

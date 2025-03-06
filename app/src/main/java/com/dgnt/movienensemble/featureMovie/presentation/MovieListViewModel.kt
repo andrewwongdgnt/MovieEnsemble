@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgnt.movienensemble.core.util.Resource
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
+import com.dgnt.movienensemble.featureMovie.domain.usecase.CanLoadMoreSearchPagesUseCase
 import com.dgnt.movienensemble.featureMovie.domain.usecase.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -19,8 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-
-    private val searchUseCase: SearchUseCase
+    private val searchUseCase: SearchUseCase,
+    private val canLoadMoreSearchPagesUseCase: CanLoadMoreSearchPagesUseCase
 ) : ViewModel() {
 
     companion object {
@@ -59,6 +60,10 @@ class MovieListViewModel @Inject constructor(
                         is Resource.Loading -> {
                             if (initialLoad)
                                 _state.value = MovieListState.Loading(state.value.searchQuery)
+                            else
+                                (state.value as? MovieListState.Result)?.let {
+                                    _state.value = it.copy(isLoadingMore = true)
+                                }
                         }
 
                         is Resource.Success -> {
@@ -68,7 +73,7 @@ class MovieListViewModel @Inject constructor(
                             } else {
                                 val newMovieList = searchResult.movies
                                 val currentMovieList = ((state.value as? MovieListState.Result)?.searchResult?.movies ?: emptyList())
-                                SearchResult(currentMovieList + newMovieList, 1, page)
+                                SearchResult(currentMovieList + newMovieList, searchResult.totalResults, page)
                             }
                             _state.value = MovieListState.Result(
                                 sq = state.value.searchQuery,
@@ -83,8 +88,10 @@ class MovieListViewModel @Inject constructor(
 
     private fun onLoadMore() {
         (state.value as? MovieListState.Result)?.let {
-            val newPage = it.searchResult.currentPage + 1
-            onSearch(it.searchQuery, newPage, 100L)
+            if (canLoadMoreSearchPagesUseCase(it.searchResult)) {
+                val newPage = it.searchResult.currentPage + 1
+                onSearch(it.searchQuery, newPage, 0)
+            }
         }
     }
 }

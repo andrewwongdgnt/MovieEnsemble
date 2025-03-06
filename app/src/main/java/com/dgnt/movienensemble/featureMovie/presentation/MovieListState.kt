@@ -14,7 +14,8 @@ sealed class MovieListState(val searchQuery: String) {
     }
     data class Result(
         val sq: String,
-        val searchResult: SearchResult
+        val searchResult: SearchResult,
+        val isLoadingMore: Boolean = false,
     ) : MovieListState(sq){
         override fun new(searchQuery: String) = copy(sq = searchQuery)
     }
