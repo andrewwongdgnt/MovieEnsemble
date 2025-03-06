@@ -1,19 +1,25 @@
 package com.dgnt.movienensemble.featureMovie.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dgnt.movienensemble.core.util.Resource
+import com.dgnt.movienensemble.featureMovie.domain.usecase.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
 
+    private val searchUseCase: SearchUseCase
 ) : ViewModel() {
 
     companion object {
@@ -30,6 +36,21 @@ class MovieListViewModel @Inject constructor(
         searchQueryJob?.cancel()
         searchQueryJob = viewModelScope.launch {
             delay(SEARCH_QUERY_PROCESSING_DELAY_MILLI)
+            searchUseCase(searchQuery)
+                .onEach { result ->
+                    when(result){
+                        is Resource.Error -> {
+                            Log.d("TAG", "Error")
+                        }
+                        is Resource.Loading -> {
+                            Log.d("TAG", "Loading")
+                        }
+                        is Resource.Success -> {
+                            Log.d("TAG", "Success")
+                        }
+                    }
+
+                }.launchIn(this)
         }
     }
 }
