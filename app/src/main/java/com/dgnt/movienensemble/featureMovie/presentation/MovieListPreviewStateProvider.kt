@@ -25,9 +25,20 @@ class MovieListPreviewParameterProvider : CollectionPreviewParameterProvider<Mov
         ),
         MovieListPreviewState(
             state = MovieListState.Result(
+                sq = "b",
+                searchResult = SearchResult(
+                    movies = emptyList(),
+                    totalResults = 4,
+                    currentPage = 1,
+                    errorMessage = "some error message"
+                )
+            )
+        ),
+        MovieListPreviewState(
+            state = MovieListState.Result(
                 sq = "Star Wars",
                 searchResult = SearchResult(
-                    listOf(
+                    movies = listOf(
                         Movie(
                             title = "Star Wars",
                             year = "2004",

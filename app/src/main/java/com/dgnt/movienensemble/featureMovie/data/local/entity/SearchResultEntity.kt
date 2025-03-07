@@ -18,6 +18,7 @@ data class SearchResultEntity(
         SearchResult(
             movies = movies.map { it.toDomain() },
             totalResults = totalResults,
-            currentPage = currentPage
+            currentPage = currentPage,
+            errorMessage = errorMessage
         )
 }

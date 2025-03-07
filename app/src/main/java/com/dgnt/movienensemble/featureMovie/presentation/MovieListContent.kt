@@ -118,16 +118,28 @@ private fun EmptyResult(
     modifier: Modifier = Modifier,
     error: Resource.Error<SearchResult>?
 ) {
+    val messageRes = error?.let {
+        R.string.errorResultMsg
+    } ?: run {
+        R.string.emptyResultMsg
+    }
+    EmptyResult(
+        modifier = modifier,
+        message = stringResource(messageRes)
+    )
+}
+
+@Composable
+private fun EmptyResult(
+    modifier: Modifier = Modifier,
+    message: String
+) {
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        val messageRes = error?.let {
-            R.string.errorResultMsg
-        } ?: run {
-            R.string.emptyResultMsg
-        }
+
         Text(
-            text = stringResource(messageRes), modifier = modifier.align(Alignment.Center)
+            text = message, modifier = modifier.align(Alignment.Center)
         )
 
     }
@@ -155,47 +167,53 @@ private fun MovieResults(
     isLoadingMore: Boolean,
     loadMore: () -> Unit
 ) {
-    EndlessLazyColumn(
-        modifier = modifier.fillMaxSize(),
-        items = searchResult.movies,
-        isLoadingMore = isLoadingMore,
-        loadMoreItems = loadMore,
-        content = { movie ->
-            ListItem(
-                modifier = modifier.padding(bottom = 5.dp),
-                leadingContent = {
-                    SubcomposeAsyncImage(
-                        modifier = Modifier.width(100.dp),
-                        loading = {
-                            CircularProgressIndicator()
-                        },
-                        error = {
-                            Image(painterResource(R.drawable.error_movie_poster), stringResource(R.string.errorMoviePosterPlaceholder))
-                        },
-                        model = movie.poster,
-                        contentDescription = null,
-                    )
-                },
-                overlineContent = { Text(text = movie.year) },
-                headlineContent = { Text(text = movie.title) },
-                supportingContent = {
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Button(
-                            modifier = Modifier.align(Alignment.BottomEnd),
-                            onClick = { /** intentionally empty **/ }
+    searchResult.errorMessage?.let {
+        EmptyResult(
+            modifier = modifier,
+            message = it
+        )
+    } ?: run {
+        EndlessLazyColumn(
+            modifier = modifier.fillMaxSize(),
+            items = searchResult.movies,
+            isLoadingMore = isLoadingMore,
+            loadMoreItems = loadMore,
+            content = { movie ->
+                ListItem(
+                    modifier = modifier.padding(bottom = 5.dp),
+                    leadingContent = {
+                        SubcomposeAsyncImage(
+                            modifier = Modifier.width(100.dp),
+                            loading = {
+                                CircularProgressIndicator()
+                            },
+                            error = {
+                                Image(painterResource(R.drawable.error_movie_poster), stringResource(R.string.errorMoviePosterPlaceholder))
+                            },
+                            model = movie.poster,
+                            contentDescription = null,
+                        )
+                    },
+                    overlineContent = { Text(text = movie.year) },
+                    headlineContent = { Text(text = movie.title) },
+                    supportingContent = {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
                         ) {
-                            Text(text = stringResource(R.string.movieDetail))
+                            Button(
+                                modifier = Modifier.align(Alignment.BottomEnd),
+                                onClick = { /** intentionally empty **/ }
+                            ) {
+                                Text(text = stringResource(R.string.movieDetail))
+                            }
                         }
-                    }
-                },
-                tonalElevation = 5.dp,
-                shadowElevation = 5.dp,
-            )
-        }
-
-    )
+                    },
+                    tonalElevation = 5.dp,
+                    shadowElevation = 5.dp,
+                )
+            }
+        )
+    }
 }
 
 @Previews
