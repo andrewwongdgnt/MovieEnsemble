@@ -39,7 +39,6 @@ import com.dgnt.movienensemble.core.presentation.composable.DefaultSnackbar
 import com.dgnt.movienensemble.core.presentation.composable.EndlessLazyColumn
 import com.dgnt.movienensemble.core.presentation.preview.Previews
 import com.dgnt.movienensemble.core.presentation.uievent.UiEvent
-import com.dgnt.movienensemble.core.util.Resource
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 import com.dgnt.movienensemble.ui.theme.MovieEnsembleTheme
 import kotlinx.coroutines.flow.Flow
@@ -97,7 +96,7 @@ private fun MovieListContentInner(
             })
             Spacer(modifier = Modifier.height(16.dp))
             when (state) {
-                is MovieListState.Empty -> EmptyResult(error = state.error)
+                is MovieListState.Empty -> EmptyResult(message = stringResource(state.messageRes))
                 is MovieListState.Loading -> LoadingResults()
                 is MovieListState.Result -> MovieResults(
                     searchResult = state.searchResult,
@@ -111,22 +110,6 @@ private fun MovieListContentInner(
 
         }
     }
-}
-
-@Composable
-private fun EmptyResult(
-    modifier: Modifier = Modifier,
-    error: Resource.Error<SearchResult>?
-) {
-    val messageRes = error?.let {
-        R.string.errorResultMsg
-    } ?: run {
-        R.string.emptyResultMsg
-    }
-    EmptyResult(
-        modifier = modifier,
-        message = stringResource(messageRes)
-    )
 }
 
 @Composable

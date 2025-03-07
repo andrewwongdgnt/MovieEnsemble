@@ -1,7 +1,7 @@
 package com.dgnt.movienensemble.featureMovie.presentation
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
-import com.dgnt.movienensemble.core.util.Resource
+import com.dgnt.movienensemble.R
 import com.dgnt.movienensemble.featureMovie.domain.model.Movie
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 
@@ -15,7 +15,7 @@ class MovieListPreviewParameterProvider : CollectionPreviewParameterProvider<Mov
             state = MovieListState.Empty(sq = "")
         ),
         MovieListPreviewState(
-            state = MovieListState.Empty(sq = "Biden", Resource.Error.IOError())
+            state = MovieListState.Empty(sq = "Biden", R.string.serverError)
         ),
         MovieListPreviewState(
             state = MovieListState.Loading(sq = "")

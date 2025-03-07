@@ -63,15 +63,16 @@ class MovieListViewModel @Inject constructor(
                     when (result) {
                         is Resource.Error -> {
                             Log.e(TAG, "Could not load search result", result.exception)
-
+                                                        
+                            val message = when (result) {
+                                is Resource.Error.HttpError -> R.string.serverError
+                                is Resource.Error.IOError -> R.string.genericError
+                            }
                             if (initialLoad) {
-                                _state.value = MovieListState.Empty(searchQuery, result)
+                                if (result.data == null)
+                                    _state.value = MovieListState.Empty(searchQuery, message)
                             } else {
                                 if (result.data == null) {
-                                    val message = when (result) {
-                                        is Resource.Error.HttpError -> R.string.serverError
-                                        is Resource.Error.IOError -> R.string.genericError
-                                    }
                                     _uiEvent.send(UiEvent.SnackBar(message = message))
                                 }
                                 (state.value as? MovieListState.Result)?.let {
@@ -87,7 +88,7 @@ class MovieListViewModel @Inject constructor(
                                         sq = searchQuery,
                                         searchResult = it
                                     )
-                                }?: MovieListState.Loading(searchQuery)
+                                } ?: MovieListState.Loading(searchQuery)
                             } else
                                 (state.value as? MovieListState.Result)?.let {
                                     _state.value = it.copy(isLoadingMore = true)
