@@ -1,6 +1,7 @@
 package com.dgnt.movienensemble.featureMovie.presentation
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
+import com.dgnt.movienensemble.core.util.Resource
 import com.dgnt.movienensemble.featureMovie.domain.model.Movie
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 
@@ -12,6 +13,9 @@ class MovieListPreviewParameterProvider : CollectionPreviewParameterProvider<Mov
     listOf(
         MovieListPreviewState(
             state = MovieListState.Empty(sq = "")
+        ),
+        MovieListPreviewState(
+            state = MovieListState.Empty(sq = "Biden", Resource.Error.IOError())
         ),
         MovieListPreviewState(
             state = MovieListState.Loading(sq = "")
@@ -42,6 +46,174 @@ class MovieListPreviewParameterProvider : CollectionPreviewParameterProvider<Mov
                             title = "Super Star Wars",
                             year = "2005",
                             poster = "https://m.media-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
+                            imdbID = "123",
+                            type = "Movie"
+                        ),
+                        Movie(
+                            title = "Cool Star Wars",
+                            year = "1988",
+                            poster = "https://m.media-amazon.com/images/M/MV5BNTgxMjY2YzUtZmVmNC00YjAwLWJlODMtNDBhNzllNzIzMjgxXkEyXkFqcGc@._V1_SX300.jpg",
                             imdbID = "123",
                             type = "Movie"
                         ),

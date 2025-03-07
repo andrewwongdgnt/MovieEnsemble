@@ -1,5 +1,6 @@
 package com.dgnt.movienensemble.featureMovie.data.remote.dto
 
+import com.dgnt.movienensemble.featureMovie.domain.model.Movie
 import com.google.gson.annotations.SerializedName
 
 data class MovieDto(
@@ -13,4 +14,13 @@ data class MovieDto(
     var imdbID: String,
     @SerializedName("Type")
     var type: String
-)
+) {
+    fun toDomain() =
+        Movie(
+            title = title,
+            year = year,
+            poster = poster,
+            imdbID = imdbID,
+            type = type,
+        )
+}

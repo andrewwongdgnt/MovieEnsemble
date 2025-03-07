@@ -2,6 +2,9 @@
     <string name="app_name">Movie Ensemble</string>
     <string name="searchMovie">Search a movie…</string>
     <string name="emptyResultMsg">No movie results yet</string>
+    <string name="errorResultMsg">Oops! Something went wrong</string>
     <string name="movieDetail">Details</string>
     <string name="errorMoviePosterPlaceholder">Movie poster not loaded</string>
+    <string name="serverError">Looks like there is a server error</string>
+    <string name="genericError">Couldn\'t reach server, check your internet connection</string>
 </resources>
