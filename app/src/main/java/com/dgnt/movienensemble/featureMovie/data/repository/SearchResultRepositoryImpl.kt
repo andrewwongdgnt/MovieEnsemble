@@ -1,17 +1,19 @@
 package com.dgnt.movienensemble.featureMovie.data.repository
 
 import com.dgnt.movienensemble.core.util.Resource
-import com.dgnt.movienensemble.featureMovie.data.remote.MovieApi
+import com.dgnt.movienensemble.featureMovie.data.local.dao.SearchResultDao
+import com.dgnt.movienensemble.featureMovie.data.remote.OMDBApi
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
-import com.dgnt.movienensemble.featureMovie.domain.repository.MovieRepository
+import com.dgnt.movienensemble.featureMovie.domain.repository.SearchResultRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class MovieRepositoryImpl(
-    private val api: MovieApi
-) : MovieRepository {
+class SearchResultRepositoryImpl(
+    private val api: OMDBApi,
+    private val dao: SearchResultDao
+) : SearchResultRepository {
     override fun search(searchQuery: String, page: Int, apiKey: String): Flow<Resource<SearchResult>> = flow {
         emit(Resource.Loading())
 

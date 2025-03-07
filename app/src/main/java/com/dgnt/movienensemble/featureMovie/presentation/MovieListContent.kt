@@ -179,8 +179,15 @@ private fun MovieResults(
                 overlineContent = { Text(text = movie.year) },
                 headlineContent = { Text(text = movie.title) },
                 supportingContent = {
-                    Button(onClick = {}) {
-                        Text(text = stringResource(R.string.movieDetail))
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Button(
+                            modifier = Modifier.align(Alignment.BottomEnd),
+                            onClick = { /** intentionally empty **/ }
+                        ) {
+                            Text(text = stringResource(R.string.movieDetail))
+                        }
                     }
                 },
                 tonalElevation = 5.dp,
