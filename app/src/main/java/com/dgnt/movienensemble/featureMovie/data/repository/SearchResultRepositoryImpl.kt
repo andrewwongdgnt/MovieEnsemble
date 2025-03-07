@@ -17,13 +17,24 @@ class SearchResultRepositoryImpl(
     override fun search(searchQuery: String, page: Int, apiKey: String): Flow<Resource<SearchResult>> = flow {
         emit(Resource.Loading())
 
+        val searchResult = dao.get(searchQuery, page)?.toDomain()
+        emit(Resource.Loading(searchResult))
+
+
         try {
-            val searchResult = api.search(searchQuery = searchQuery, page = page, apiKey = apiKey)
-            emit(Resource.Success(searchResult.toDomain(page)))
+            val searchResultDto = api.search(searchQuery = searchQuery, page = page, apiKey = apiKey)
+            dao.insert(searchResultDto.toData(searchQuery, page))
+
         } catch (e: HttpException) {
-            emit(Resource.Error.HttpError(e = e))
+            emit(Resource.Error.HttpError(ex = e, exData = searchResult))
         } catch (e: IOException) {
-            emit(Resource.Error.IOError(e = e))
+            emit(Resource.Error.IOError(ex = e, exData = searchResult))
+        }
+
+        val newSearchResultEntity = dao.get(searchQuery, page)
+        val newSearchResult = newSearchResultEntity?.toDomain()
+        newSearchResult?.let {
+            emit(Resource.Success(it))
         }
     }
 }

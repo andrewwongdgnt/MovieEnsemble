@@ -11,7 +11,7 @@ class MovieListConverter(private val serializer: Serializer) {
     @TypeConverter
     fun fromJson(json: String): List<MovieData> {
         return try {
-            serializer.deserialize(json, object : TypeToken<MovieData>() {}.type)
+            serializer.deserialize(json, object : TypeToken<List<MovieData>>() {}.type)
         } catch (e: Exception) {
             emptyList()
         }

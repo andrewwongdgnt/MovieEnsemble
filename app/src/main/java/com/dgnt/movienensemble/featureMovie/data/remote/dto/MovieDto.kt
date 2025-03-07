@@ -1,5 +1,6 @@
 package com.dgnt.movienensemble.featureMovie.data.remote.dto
 
+import com.dgnt.movienensemble.featureMovie.data.local.entity.MovieData
 import com.dgnt.movienensemble.featureMovie.domain.model.Movie
 import com.google.gson.annotations.SerializedName
 
@@ -23,4 +24,14 @@ data class MovieDto(
             imdbID = imdbID,
             type = type,
         )
+
+    fun toData() =
+        MovieData(
+            title = title,
+            year = year,
+            poster = poster,
+            imdbID = imdbID,
+            type = type,
+        )
+
 }

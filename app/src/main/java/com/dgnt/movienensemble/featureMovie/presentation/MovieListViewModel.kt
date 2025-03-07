@@ -67,12 +67,13 @@ class MovieListViewModel @Inject constructor(
                             if (initialLoad) {
                                 _state.value = MovieListState.Empty(searchQuery, result)
                             } else {
-                                val message = when (result) {
-                                    is Resource.Error.HttpError -> R.string.serverError
-                                    is Resource.Error.IOError -> R.string.genericError
+                                if (result.data == null) {
+                                    val message = when (result) {
+                                        is Resource.Error.HttpError -> R.string.serverError
+                                        is Resource.Error.IOError -> R.string.genericError
+                                    }
+                                    _uiEvent.send(UiEvent.SnackBar(message = message))
                                 }
-                                _uiEvent.send(UiEvent.SnackBar(message = message))
-
                                 (state.value as? MovieListState.Result)?.let {
                                     _state.value = it.copy(isLoadingMore = false)
                                 }
@@ -80,9 +81,14 @@ class MovieListViewModel @Inject constructor(
                         }
 
                         is Resource.Loading -> {
-                            if (initialLoad)
-                                _state.value = MovieListState.Loading(state.value.searchQuery)
-                            else
+                            if (initialLoad) {
+                                _state.value = result.data?.let {
+                                    MovieListState.Result(
+                                        sq = searchQuery,
+                                        searchResult = it
+                                    )
+                                }?: MovieListState.Loading(searchQuery)
+                            } else
                                 (state.value as? MovieListState.Result)?.let {
                                     _state.value = it.copy(isLoadingMore = true)
                                 }
@@ -98,7 +104,7 @@ class MovieListViewModel @Inject constructor(
                                 SearchResult(currentMovieList + newMovieList, searchResult.totalResults, page)
                             }
                             _state.value = MovieListState.Result(
-                                sq = state.value.searchQuery,
+                                sq = searchQuery,
                                 searchResult = finalSearchResult
                             )
                         }

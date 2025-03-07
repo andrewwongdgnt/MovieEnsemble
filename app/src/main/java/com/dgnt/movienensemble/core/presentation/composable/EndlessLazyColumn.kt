@@ -26,10 +26,8 @@ fun <T> EndlessLazyColumn(
 ) {
     val listState = rememberLazyListState()
 
-    // observe list scrolling
     val reachedBottom: Boolean by remember { derivedStateOf { listState.reachedBottom() } }
 
-    // load more if scrolled to bottom
     LaunchedEffect(reachedBottom) {
         if (reachedBottom)
             loadMoreItems()
