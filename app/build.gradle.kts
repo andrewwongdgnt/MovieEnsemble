@@ -72,17 +72,15 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     testImplementation(libs.kotlinx.coroutines.test)
 
-    //dagger hilt
+    // Dagger hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing)
-//    kaptAndroidTest(libs.hilt.compiler)
     testImplementation(libs.hilt.android.testing)
-//    kaptTest(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    //room
+    // Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
@@ -97,4 +95,8 @@ dependencies {
 
     // Coil
     implementation (libs.coil)
+
+    // Mockito / Mock
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockito.core)
 }

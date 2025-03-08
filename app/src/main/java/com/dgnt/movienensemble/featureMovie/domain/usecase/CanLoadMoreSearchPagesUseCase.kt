@@ -2,12 +2,12 @@ package com.dgnt.movienensemble.featureMovie.domain.usecase
 
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 import javax.inject.Inject
-import kotlin.math.roundToInt
+import kotlin.math.ceil
 
 class CanLoadMoreSearchPagesUseCase @Inject constructor() {
 
     operator fun invoke(searchResult: SearchResult): Boolean {
-        val pages = (searchResult.totalResults.toFloat() / searchResult.resultsPerPage).roundToInt()
+        val pages = ceil(searchResult.totalResults.toFloat() / searchResult.resultsPerPage).toInt()
         return searchResult.currentPage < pages
     }
 }

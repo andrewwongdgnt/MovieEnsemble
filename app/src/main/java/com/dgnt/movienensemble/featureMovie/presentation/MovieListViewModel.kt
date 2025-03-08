@@ -8,7 +8,8 @@ import com.dgnt.movienensemble.core.presentation.uievent.UiEvent
 import com.dgnt.movienensemble.core.util.Resource
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 import com.dgnt.movienensemble.featureMovie.domain.usecase.CanLoadMoreSearchPagesUseCase
-import com.dgnt.movienensemble.featureMovie.domain.usecase.SearchUseCase
+import com.dgnt.movienensemble.featureMovie.domain.usecase.SearchMovieUseCase
+import com.dgnt.movienensemble.featureMovie.domain.usecase.ValidateSearchQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -24,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    private val searchUseCase: SearchUseCase,
+    private val searchMovieUseCase: SearchMovieUseCase,
+    private val validateSearchQueryUseCase: ValidateSearchQueryUseCase,
     private val canLoadMoreSearchPagesUseCase: CanLoadMoreSearchPagesUseCase
 ) : ViewModel() {
 
@@ -56,14 +58,16 @@ class MovieListViewModel @Inject constructor(
         val initialLoad = page == 1
         _state.value = state.value.new(searchQuery)
         searchQueryJob?.cancel()
+        if (!validateSearchQueryUseCase(searchQuery))
+            return
         searchQueryJob = viewModelScope.launch {
             delay(searchProcessingDelay)
-            searchUseCase(searchQuery, page)
+            searchMovieUseCase(searchQuery, page)
                 .onEach { result ->
                     when (result) {
                         is Resource.Error -> {
                             Log.e(TAG, "Could not load search result", result.exception)
-                                                        
+
                             val message = when (result) {
                                 is Resource.Error.HttpError -> R.string.serverError
                                 is Resource.Error.IOError -> R.string.genericError
