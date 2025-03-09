@@ -8,9 +8,9 @@ import org.junit.Before
 import org.junit.Test
 
 
-class CanLoadMoreSearchPagesUseCaseTest {
+class CanLoadMoreSearchResultsUseCaseTest {
     @InjectMockKs
-    private lateinit var canLoadMoreSearchPagesUseCase: CanLoadMoreSearchPagesUseCase
+    private lateinit var canLoadMoreSearchResultsUseCase: CanLoadMoreSearchResultsUseCase
 
     private val mockFirstPageSearchResult = SearchResult(
         movies = emptyList(),
@@ -46,17 +46,17 @@ class CanLoadMoreSearchPagesUseCaseTest {
 
     @Test
     fun `test load more - first page`() {
-        Assert.assertTrue(canLoadMoreSearchPagesUseCase(mockFirstPageSearchResult))
+        Assert.assertTrue(canLoadMoreSearchResultsUseCase(mockFirstPageSearchResult))
     }
 
     @Test
     fun `test load more - almost last page`() {
-        Assert.assertTrue(canLoadMoreSearchPagesUseCase(mockAlmostLastPageSearchResult1))
-        Assert.assertTrue(canLoadMoreSearchPagesUseCase(mockAlmostLastPageSearchResult2))
+        Assert.assertTrue(canLoadMoreSearchResultsUseCase(mockAlmostLastPageSearchResult1))
+        Assert.assertTrue(canLoadMoreSearchResultsUseCase(mockAlmostLastPageSearchResult2))
     }
 
     @Test
     fun `test cannot load more - last page`() {
-        Assert.assertFalse(canLoadMoreSearchPagesUseCase(mockLastPageSearchResult))
+        Assert.assertFalse(canLoadMoreSearchResultsUseCase(mockLastPageSearchResult))
     }
 }

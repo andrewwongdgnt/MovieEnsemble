@@ -4,7 +4,7 @@ import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
 import javax.inject.Inject
 import kotlin.math.ceil
 
-class CanLoadMoreSearchPagesUseCase @Inject constructor() {
+class CanLoadMoreSearchResultsUseCase @Inject constructor() {
 
     operator fun invoke(searchResult: SearchResult): Boolean {
         val pages = ceil(searchResult.totalResults.toFloat() / searchResult.resultsPerPage).toInt()

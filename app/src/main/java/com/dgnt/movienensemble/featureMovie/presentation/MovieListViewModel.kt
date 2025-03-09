@@ -1,13 +1,12 @@
 package com.dgnt.movienensemble.featureMovie.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgnt.movienensemble.R
 import com.dgnt.movienensemble.core.presentation.uievent.UiEvent
 import com.dgnt.movienensemble.core.util.Resource
 import com.dgnt.movienensemble.featureMovie.domain.model.SearchResult
-import com.dgnt.movienensemble.featureMovie.domain.usecase.CanLoadMoreSearchPagesUseCase
+import com.dgnt.movienensemble.featureMovie.domain.usecase.CanLoadMoreSearchResultsUseCase
 import com.dgnt.movienensemble.featureMovie.domain.usecase.SearchMovieUseCase
 import com.dgnt.movienensemble.featureMovie.domain.usecase.ValidateSearchQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +26,7 @@ import javax.inject.Inject
 class MovieListViewModel @Inject constructor(
     private val searchMovieUseCase: SearchMovieUseCase,
     private val validateSearchQueryUseCase: ValidateSearchQueryUseCase,
-    private val canLoadMoreSearchPagesUseCase: CanLoadMoreSearchPagesUseCase
+    private val canLoadMoreSearchResultsUseCase: CanLoadMoreSearchResultsUseCase
 ) : ViewModel() {
 
     companion object {
@@ -66,8 +65,6 @@ class MovieListViewModel @Inject constructor(
                 .onEach { result ->
                     when (result) {
                         is Resource.Error -> {
-                            Log.e(TAG, "Could not load search result", result.exception)
-
                             val message = when (result) {
                                 is Resource.Error.HttpError -> R.string.serverError
                                 is Resource.Error.IOError -> R.string.genericError
@@ -121,7 +118,7 @@ class MovieListViewModel @Inject constructor(
 
     private fun onLoadMore() {
         (state.value as? MovieListState.Result)
-            ?.takeIf { canLoadMoreSearchPagesUseCase(it.searchResult) }
+            ?.takeIf { canLoadMoreSearchResultsUseCase(it.searchResult) }
             ?.let {
                 val newPage = it.searchResult.currentPage + 1
                 onSearch(it.searchQuery, newPage, 0)
